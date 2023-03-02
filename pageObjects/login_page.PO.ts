@@ -1,16 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 export class LoginPage {
-    readonly page: Page;
-    readonly logoImg: string;
-    readonly userName: string;
-    readonly password: string;
-    readonly inputUserName: string;
-    readonly inputPassword: string;
-    readonly loginBtn: string;
-    readonly inValidMsg: string;
-    readonly alertDiv: string;
-    readonly requiredMsg: string;
+    readonly page: Page; logoImg: string; userName: string; password: string; inputUserName: string; inputPassword: string; loginBtn: string; inValidMsg: string; alertDiv: string; requiredMsg: string;
 
     constructor(page: Page) {
         this.page = page;
