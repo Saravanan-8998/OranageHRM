@@ -1,0 +1,10 @@
+{
+    "credentials": {
+        "wrongUsername": "Adimn",
+        "wrongPassword": "adimn321"
+    },
+    "assertion": {
+        "invalidCredentials": "Invalid credentials",
+        "requiredCredentials" : "Required"
+    }
+}
