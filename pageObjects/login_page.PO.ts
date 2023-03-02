@@ -17,12 +17,12 @@ export class LoginPage {
     }
 
     async componentsVisibility() {
-        (await this.page.waitForSelector(this.logoImg)).isVisible;
-        (await this.page.waitForSelector(this.userName)).isVisible;
-        (await this.page.waitForSelector(this.password)).isVisible;
-        (await this.page.waitForSelector(this.inputUserName)).isVisible;
-        (await this.page.waitForSelector(this.inputPassword)).isVisible;
-        (await this.page.waitForSelector(this.loginBtn)).isVisible;
+        await (await this.page.waitForSelector(this.logoImg)).isVisible();
+        await (await this.page.waitForSelector(this.userName)).isVisible();
+        await (await this.page.waitForSelector(this.password)).isVisible();
+        await (await this.page.waitForSelector(this.inputUserName)).isVisible();
+        await (await this.page.waitForSelector(this.inputPassword)).isVisible();
+        await (await this.page.waitForSelector(this.loginBtn)).isVisible();
     }
 
     async enterCredentials(username: any, password: any) {

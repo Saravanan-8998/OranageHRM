@@ -1,4 +1,5 @@
 {
     "login" : "/web/index.php/auth/login",
-    "dashboard" : "web/index.php/dashboard/index"
+    "dashboard" : "web/index.php/dashboard/index",
+    "punchIn" : "web/index.php/attendance/punchIn"
 }
