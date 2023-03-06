@@ -5,6 +5,10 @@ export class Dashboard {
     readonly timeAtWorkLoc: any;
     readonly myActions: any;
     readonly quickLaunches: any;
+    readonly buzzLatestPosts: any;
+    readonly employeeDistributionBySubUnit: any;
+    readonly employeeDistributionByLocation: any;
+    readonly employeeOnLeaveToday: any;
 
     constructor(page: Page) {
         this.page = page;
@@ -37,6 +41,67 @@ export class Dashboard {
             myLeave: `button[title='My Leave']`,
             myTimesheet: `button[title='My Timesheet']`,
         }
+        this.buzzLatestPosts = {
+            buzzLatestPostsTitle: `//p[text()='Buzz Latest Posts']`,
+            mainDiv : `(//div[@class='orangehrm-dashboard-widget-body --scroll-visible'])[1]`,
+            subDiv : `oxd-text oxd-text--p orangehrm-buzz-widget-body`,
+        }
+        this.employeeDistributionByLocation = {
+            employeeDistributionByLocationTitle : `//p[text()='Employee Distribution by Location']`,
+            chart : `//canvas[@id='Itq3jVei']`,
+            allList : `oxd-chart-legend-key`,
+        }
+        this.employeeDistributionBySubUnit = {
+            employeeDistributionBySubUnitTitle : `//p[text()='Employee Distribution by Sub Unit`,
+            chart : `//canvas[@id='XOD4lcKN']`,
+            allList : `oxd-chart-legend-key`,
+        }
+        this.employeeOnLeaveToday = {
+            employeeOnLeaveTodayTitle : `//p[text()='Employees on Leave Today']`,
+            settingIcon : `i.oxd-icon.bi-gear-fill`,
+            noLeaveMsg : `//img[@alt='No Content']/following-sibling::p[1]`,
+            noLeaveMsgIcon : `//img[@alt='No Content']`,
+            popupBody : `//div[@role='document']`,
+            toggleBtn : `span.oxd-switch-input.oxd-switch-input--active`,
+            cancelBtn : `//button[text()=' Cancel ']`,
+            saveBtn :  `//button[@type='submit']`,
+            closeBtn : `//button[text()='×']`,
+            txtHeader : `//div[@class='orangehrm-config-title']//p[1]`,
+            innertxt : `label.oxd-label`,
+        }
+    }
+
+    async verifyEmployeeLeaveTodayComponents() {
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.employeeOnLeaveTodayTitle)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.settingIcon)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.noLeaveMsgIcon)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.noLeaveMsg)).isVisible();
+    }
+
+    async verifyEmployeeLeaveTodaySettingsComponents(){
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.popupBody)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.txtHeader)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.innertxt)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.toggleBtn)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.cancelBtn)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.saveBtn)).isVisible();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.closeBtn)).isVisible();
+    }
+
+    async toggle(){
+        await this.page.locator(this.employeeOnLeaveToday.toggleBtn).click();
+    }
+
+    async cancel(){
+        await this.page.locator(this.employeeOnLeaveToday.cancelBtn).click();
+    }
+
+    async save(){
+        await this.page.locator(this.employeeOnLeaveToday.saveBtn).click();
+    }
+
+    async close(){
+        await this.page.locator(this.employeeOnLeaveToday.closeBtn).click();
     }
 
     async verifyTimeAtWorkComponents() {
@@ -113,5 +178,34 @@ export class Dashboard {
 
     async myTimesheetClick() {
         await this.page.locator(this.quickLaunches.myTimesheet).click();
+    }
+
+    async verifyBuzzLatestPostsComponents(){
+        await (await this.page.waitForSelector(this.buzzLatestPosts.buzzLatestPostsTitle)).isVisible();
+        await (await this.page.waitForSelector(this.buzzLatestPosts.mainDiv)).isVisible();
+    }
+
+    async checkSubDiv(){
+        let totalSubDiv = await this.page.locator(this.buzzLatestPosts.subDiv).count();
+        if(totalSubDiv >= 1) {
+            console.log("Total buzz latets posts are,",totalSubDiv);
+        }
+    }
+
+    async verifyEmployeeDistributionByLocationComponents() {
+        await (await this.page.waitForSelector(this.employeeDistributionByLocation.employeeDistributionByLocationTitle)).isVisible();
+        await (await this.page.waitForSelector(this.employeeDistributionByLocation.chart)).isVisible();
+    }
+
+    async verifyEmployeeDistributionBySubUnitComponents() {
+        await (await this.page.waitForSelector(this.employeeDistributionBySubUnit.employeeDistributionBySubUnitTitle)).isVisible();
+        await (await this.page.waitForSelector(this.employeeDistributionBySubUnit.chart)).isVisible();
+    }
+
+    async totolList(){
+        let list = await this.page.locator(this.employeeDistributionByLocation.allList).count();
+        if(list >= 1){
+            console.log("Sub list is available");
+        }
     }
 }
