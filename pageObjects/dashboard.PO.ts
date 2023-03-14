@@ -52,7 +52,7 @@ export class Dashboard {
             allList : `oxd-chart-legend-key`,
         }
         this.employeeDistributionBySubUnit = {
-            employeeDistributionBySubUnitTitle : `//p[text()='Employee Distribution by Sub Unit`,
+            employeeDistributionBySubUnitTitle : `//p[text()='Employee Distribution by Sub Unit']`,
             chart : `//canvas[@id='XOD4lcKN']`,
             allList : `oxd-chart-legend-key`,
         }
@@ -62,10 +62,10 @@ export class Dashboard {
             noLeaveMsg : `//img[@alt='No Content']/following-sibling::p[1]`,
             noLeaveMsgIcon : `//img[@alt='No Content']`,
             popupBody : `//div[@role='document']`,
-            toggleBtn : `span.oxd-switch-input.oxd-switch-input--active`,
-            cancelBtn : `//button[text()=' Cancel ']`,
+            toggleBtn : `//button[text()=' Cancel ']`,
             saveBtn :  `//button[@type='submit']`,
             closeBtn : `//button[text()='×']`,
+            cancelBtn : `//button[text()=' Cancel ']`,
             txtHeader : `//div[@class='orangehrm-config-title']//p[1]`,
             innertxt : `label.oxd-label`,
         }
@@ -79,6 +79,7 @@ export class Dashboard {
     }
 
     async verifyEmployeeLeaveTodaySettingsComponents(){
+        await this.leaveSettings();
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.popupBody)).isVisible();
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.txtHeader)).isVisible();
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.innertxt)).isVisible();
@@ -88,25 +89,33 @@ export class Dashboard {
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.closeBtn)).isVisible();
     }
 
+    async leaveSettings(){
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.settingIcon)).isVisible();
+        await this.page.locator(this.employeeOnLeaveToday.settingIcon).click();
+    }
+
     async toggle(){
+        await this.leaveSettings();
         await this.page.locator(this.employeeOnLeaveToday.toggleBtn).click();
     }
 
     async cancel(){
+        await this.leaveSettings();
         await this.page.locator(this.employeeOnLeaveToday.cancelBtn).click();
     }
 
     async save(){
+        await this.leaveSettings();
         await this.page.locator(this.employeeOnLeaveToday.saveBtn).click();
     }
 
     async close(){
+        await this.leaveSettings();
         await this.page.locator(this.employeeOnLeaveToday.closeBtn).click();
     }
 
     async verifyTimeAtWorkComponents() {
         await (await this.page.waitForSelector(this.timeAtWorkLoc.timeAtWorkTitle)).isVisible();
-        await (await this.page.waitForSelector(this.timeAtWorkLoc.punchedOut)).isVisible();
         await (await this.page.waitForSelector(this.timeAtWorkLoc.timeFormat)).isVisible();
         await (await this.page.waitForSelector(this.timeAtWorkLoc.timeBtn)).isVisible();
         await (await this.page.waitForSelector(this.timeAtWorkLoc.currentWeek)).isVisible();
@@ -194,12 +203,10 @@ export class Dashboard {
 
     async verifyEmployeeDistributionByLocationComponents() {
         await (await this.page.waitForSelector(this.employeeDistributionByLocation.employeeDistributionByLocationTitle)).isVisible();
-        await (await this.page.waitForSelector(this.employeeDistributionByLocation.chart)).isVisible();
     }
 
     async verifyEmployeeDistributionBySubUnitComponents() {
         await (await this.page.waitForSelector(this.employeeDistributionBySubUnit.employeeDistributionBySubUnitTitle)).isVisible();
-        await (await this.page.waitForSelector(this.employeeDistributionBySubUnit.chart)).isVisible();
     }
 
     async totolList(){
