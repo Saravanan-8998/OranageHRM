@@ -16,29 +16,6 @@ test.beforeAll(async () => {
 
 test.describe('Should check all functionality in vacancies', async () => {
 
-    test('Should check all the components loaded and visible', async () => {
-    });
-
-    test('Should check all the components loaded and visible in add a vacancies page', async () => {
-    });
-
-    test('Should fill the invalid fields', async () => {
-    });
-
-    test('Should fill the valid fields', async () => {
-    });
-
-    test('Should check the data created is visible in list page', async () => {
-    });
-
-    test('Should modify the search option and search with the data created', async () => {
-    });
-
-    test('Should modify few fields and able to save the record', async () => {
-    });
-    
-    test('Should able to see the modified data in the list page', async () => {
-    });
 });
 
 test.afterAll(async () => {
