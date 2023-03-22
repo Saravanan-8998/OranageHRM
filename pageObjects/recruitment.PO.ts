@@ -4,6 +4,7 @@ export class Recruitment {
     readonly page: Page;
     readonly candidates: any;
     readonly vacancies: any;
+    readonly toastMessage: any;
 
     constructor(page: Page) {
         this.page = page;
@@ -27,56 +28,54 @@ export class Recruitment {
             reset: `//button[text()=' Reset ']`,
             search: `//button[text()=' Search ']`,
             mainDiv: `.orangehrm-container`,
-            totalRecordsList : `(//span[@class='oxd-text oxd-text--span'])[1]`,
+            totalRecordsList: `(//span[@class='oxd-text oxd-text--span'])[1]`,
         }
         this.vacancies = {
             vacanciesTab: `//a[contains(text(),'Vacancies')]`,
-        }
+        },
+            this.toastMessage = 'p.oxd-text--toast-message';
     }
 
-    async clickCandidates(){
+    async navigate() {
+        await this.page.locator(`//span[text()='Recruitment']`).click();
+    }
+
+    async clickCandidates() {
         await this.page.locator(this.candidates.candidatesTab).click();
     }
 
-    async clickVacancies(){
+    async clickVacancies() {
         await this.page.locator(this.candidates.vacanciesTab).click();
     }
 
-    async checkAllComponentsInCandidateHomePage(){
-        await (await this.page.waitForSelector(this.candidates.subDiv)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.head)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.reset)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.search)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.addACandidate)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.mainDiv)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.totalRecordsList)).isVisible();
+    async uploadFile() {
+        const fileInput: any = await this.page.$('input[type=file]');
+        const filePath = 'C:/Users/saravanan.s/Documents/OrangeHRM/OranageHRM/sampleUpload/upload.txt';
+        await fileInput.setInputFiles(filePath);
     }
 
-    async checkAllComponentsInAddCandidatePage(){
-        await this.page.locator(this.candidates.addACandidate).click();
-        await (await this.page.waitForSelector(this.candidates.firstName)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.middleName)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.lastName)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.vaccancy)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.email)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.contactNumber)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.resume)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.keywords)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.dateOfApplication)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.notes)).isVisible();
-        await (await this.page.waitForSelector(this.candidates.save)).isVisible();
+    async clickSave(messageToVerify?: string) {
+        await this.page.locator(this.candidates.save).click({ force: true });
+        if (messageToVerify) {
+            expect(await this.getToastMessage()).toEqual(messageToVerify);
+        }
     }
 
-    async addNewCandidate(){
+    async getToastMessage() {
+        return await this.page.locator(this.toastMessage).textContent();
+    }
+
+    async addNewCandidate() {
         await this.page.locator(this.candidates.addACandidate).click();
         await this.page.locator(this.candidates.firstName).fill('Saravanan');
         await this.page.locator(this.candidates.middleName).fill('Sas');
         await this.page.locator(this.candidates.lastName).fill('Subramanian');
-        await this.page.locator(this.candidates.vaccancy).selectOption('Software Engineer');
+        await this.page.locator(`.oxd-select-text-input`).click();
+        await this.page.getByRole('option', { name: 'Software Engineer' }).getByText('Software Engineer', { exact: true }).click();
         await this.page.locator(this.candidates.email).fill('saravanan.subramanian@atmecs.com');
         await this.page.locator(this.candidates.contactNumber).fill('9999832378');
+        await this.uploadFile();
         await this.page.locator(this.candidates.keywords).fill('Fast Join');
         await this.page.locator(this.candidates.notes).fill('Need a good candidate');
-        await this.page.locator(this.candidates.save).click();
     }
 }

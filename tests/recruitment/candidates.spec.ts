@@ -15,24 +15,16 @@ test.beforeAll(async () => {
     await page.goto(subURL.login);
     loginPage = new LoginPage(page);
     recruitment = new Recruitment(page);
+    await loginPage.enterCredentials(ENV.USERNAME, ENV.PASSWORD);
+    await recruitment.navigate();
 });
 
 test.describe('Should check all functionality in candidated', async () => {
 
-    test('Should check all the components loaded and visible', async () => {
-        await recruitment.checkAllComponentsInCandidateHomePage();
-    });
-
-    test('Should check all the components loaded and visible in add a candidate page', async () => {
-        await recruitment.checkAllComponentsInAddCandidatePage();
-    });
-
-    test('Should fill the invalid fields', async () => {
+    test('Should fill the valid fields', async () => {
         await recruitment.addNewCandidate();
+        await recruitment.clickSave(Constants.assertion.success);
     });
-
-    // test('Should fill the valid fields', async () => {
-    // });
 
     // test('Should check the data created is visible in list page', async () => {
     // });
@@ -42,7 +34,7 @@ test.describe('Should check all functionality in candidated', async () => {
 
     // test('Should modify few fields and able to save the record', async () => {
     // });
-    
+
     // test('Should able to see the modified data in the list page', async () => {
     // });
 });

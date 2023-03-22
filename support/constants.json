@@ -5,6 +5,7 @@
     },
     "assertion": {
         "invalidCredentials": "Invalid credentials",
-        "requiredCredentials" : "Required"
+        "requiredCredentials" : "Required",
+        "success" : "Successfully Saved"
     }
 }
