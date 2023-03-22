@@ -26,8 +26,9 @@ test.describe('Should check all functionality in candidated', async () => {
         await recruitment.clickSave(Constants.assertion.success);
     });
 
-    // test('Should check the data created is visible in list page', async () => {
-    // });
+    test('Should check the data created is visible in list page', async () => {
+        await recruitment.verifySearch();
+    });
 
     // test('Should modify the search option and search with the data created', async () => {
     // });

@@ -78,4 +78,17 @@ export class Recruitment {
         await this.page.locator(this.candidates.keywords).fill('Fast Join');
         await this.page.locator(this.candidates.notes).fill('Need a good candidate');
     }
+
+    async searchCandidate(){
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[1]`).click();
+        await this.page.getByRole('option', { name: 'Software Engineer' }).getByText('Software Engineer', { exact: true }).click();
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[4]`).click();
+        await this.page.getByRole('option', { name: 'Application Initiated' }).getByText('Application Initiated', { exact: true }).click();
+        await this.page.locator(this.candidates.search).click();
+    }
+
+    async verifySearch(){
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).allTextContents();
+        expect(totalRecords).toBeGreaterThan(0);
+    }
 }
