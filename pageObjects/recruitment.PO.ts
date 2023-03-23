@@ -84,6 +84,7 @@ export class Recruitment {
         await this.page.getByRole('option', { name: 'Software Engineer' }).getByText('Software Engineer', { exact: true }).click();
         await this.page.locator(`(//div[@class='oxd-select-text-input'])[4]`).click();
         await this.page.getByRole('option', { name: 'Application Initiated' }).getByText('Application Initiated', { exact: true }).click();
+        await this.page.locator(`//input[@placeholder='Type for hints...']`).type('Saravanan');
         await this.page.locator(this.candidates.search).click();
     }
 
