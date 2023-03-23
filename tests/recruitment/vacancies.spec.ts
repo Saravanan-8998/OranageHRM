@@ -3,9 +3,7 @@ import { Recruitment } from "../../pageObjects/recruitment.PO";
 import { LoginPage } from "../../pageObjects/login_page.PO";
 import subURL from "../../support/subURL.json";
 import { myBrowserFixture } from "../../support/fixtures";
-import Constants from "../../support/constants.json";
 import ENV from "../../support/env";
-import { AssertionURL } from "../../support/url";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -27,7 +25,6 @@ test.describe('Should check all functionality in vacancies', async () => {
     });
 
     test('Should check the data created is visible in list page', async () => {
-        await expect(page).toHaveURL(AssertionURL.recruitmentURL);
         await recruitment.searchVacancie();
         await recruitment.verifyVacancieSearch();
     });

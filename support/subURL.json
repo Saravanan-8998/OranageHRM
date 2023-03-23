@@ -1,5 +1,8 @@
 {
     "login" : "/web/index.php/auth/login",
     "dashboard" : "web/index.php/dashboard/index",
-    "punchIn" : "web/index.php/attendance/punch"
+    "punchIn" : "web/index.php/attendance/punch",
+    "viewCandidates" : "web/index.php/recruitment/viewCandidates",
+    "viewJobVacancy" : "web/index.php/recruitment/viewJobVacancy",
+    "filePath" : "C:/Users/saravanan.s/Documents/OrangeHRM/OranageHRM/sampleUpload/upload.txt"
 }

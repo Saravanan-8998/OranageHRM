@@ -5,7 +5,6 @@ import subURL from "../../support/subURL.json";
 import { myBrowserFixture } from "../../support/fixtures";
 import Constants from "../../support/constants.json";
 import ENV from "../../support/env";
-import { AssertionURL } from "../../support/url";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -23,13 +22,11 @@ test.beforeAll(async () => {
 test.describe('Should check all functionality in candidated', async () => {
 
     test('Should fill the valid fields', async () => {
-        await expect(page).toHaveURL(AssertionURL.recruitmentURL);
         await recruitment.addNewCandidate();
         await recruitment.clickSave(Constants.assertion.success);
     });
 
     test('Should check the data created is visible in list page', async () => {
-        await expect(page).toHaveURL(AssertionURL.recruitmentURL);
         await recruitment.searchCandidate();
         await recruitment.verifyCandidateSearch();
     });

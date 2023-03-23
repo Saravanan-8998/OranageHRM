@@ -6,6 +6,9 @@
     "assertion": {
         "invalidCredentials": "Invalid credentials",
         "requiredCredentials" : "Required",
-        "success" : "Successfully Saved"
+        "success" : "Successfully Saved",
+        "totalRecords" : "(1) Record Found",
+        "status1": "Status: Shortlisted",
+        "status2": "Status: Rejected"
     }
 }
