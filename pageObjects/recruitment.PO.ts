@@ -59,19 +59,49 @@ export class Recruitment {
         if (messageToVerify) {
             expect(await this.getToastMessage()).toEqual(messageToVerify);
         }
+        await this.page.waitForTimeout(4000);
     }
 
     async getToastMessage() {
         return await this.page.locator(this.toastMessage).textContent();
     }
 
+    async addNewVacancie() {
+        await this.page.locator(this.vacancies.vacanciesTab).click();
+        await this.page.locator(`//button[text()=' Add ']`).click();
+        await this.page.locator(`(//input[@class='oxd-input oxd-input--active'])[2]`).fill('Test Vaccancy 1');
+        await this.page.locator(`div.oxd-select-text-input`).click();
+        await this.page.getByRole('option', { name: 'QA Engineer' }).getByText('QA Engineer', { exact: true }).click();
+        await this.page.locator(`//textarea[@placeholder='Type description here']`).type('This is a sample Vacancie which is developed for testing purposes');
+        await this.page.locator(`//input[@placeholder='Type for hints...']`).fill('Odis');
+        await this.page.getByRole('option', { name: 'Odis  Adalwin' }).getByText('Odis  Adalwin', { exact: true }).click();
+        await this.page.locator(`(//input[@class='oxd-input oxd-input--active'])[3]`).fill('1');
+        await this.page.locator(`//button[@type='submit']`).click();
+        await this.page.waitForTimeout(5000);
+    }
+
+    async searchVacancie(){
+        await this.page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/recruitment/viewJobVacancy");
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[1]`).first().click();
+        await this.page.getByRole('option', { name: 'QA Engineer' }).click();
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[2]`).click();
+        await this.page.getByRole('option', { name: 'Test Vaccancy 1' }).getByText('Test Vaccancy 1', { exact: true }).click();
+        await this.page.locator(`//button[@type='submit']`).click();
+        await this.page.waitForTimeout(5000);
+    }
+
+    async verifyVacancieSearch(){
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        expect(totalRecords).toContain(`(1) Record Found`);
+    }
+
     async addNewCandidate() {
         await this.page.locator(this.candidates.addACandidate).click();
-        await this.page.locator(this.candidates.firstName).fill('Saravanan');
-        await this.page.locator(this.candidates.middleName).fill('Sas');
-        await this.page.locator(this.candidates.lastName).fill('Subramanian');
+        await this.page.locator(this.candidates.firstName).fill('Test');
+        await this.page.locator(this.candidates.middleName).fill('User');
+        await this.page.locator(this.candidates.lastName).fill('1');
         await this.page.locator(`.oxd-select-text-input`).click();
-        await this.page.getByRole('option', { name: 'Software Engineer' }).getByText('Software Engineer', { exact: true }).click();
+        await this.page.getByRole('option', { name: 'Test Vaccancy 1' }).getByText('Test Vaccancy 1', { exact: true }).click();
         await this.page.locator(this.candidates.email).fill('saravanan.subramanian@atmecs.com');
         await this.page.locator(this.candidates.contactNumber).fill('9999832378');
         await this.uploadFile();
@@ -80,16 +110,37 @@ export class Recruitment {
     }
 
     async searchCandidate(){
-        await this.page.locator(`(//div[@class='oxd-select-text-input'])[1]`).click();
-        await this.page.getByRole('option', { name: 'Software Engineer' }).getByText('Software Engineer', { exact: true }).click();
+        await this.page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/recruitment/viewCandidates");
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[2]`).first().click();
+        await this.page.getByRole('option', { name: 'Test Vaccancy 1' }).getByText('Test Vaccancy 1', { exact: true }).click();
         await this.page.locator(`(//div[@class='oxd-select-text-input'])[4]`).click();
         await this.page.getByRole('option', { name: 'Application Initiated' }).getByText('Application Initiated', { exact: true }).click();
-        await this.page.locator(`//input[@placeholder='Type for hints...']`).type('Saravanan');
         await this.page.locator(this.candidates.search).click();
+        await this.page.waitForTimeout(4000);
     }
 
-    async verifySearch(){
-        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).allTextContents();
-        expect(totalRecords).toBeGreaterThan(0);
+    async verifyCandidateSearch(){
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        expect(totalRecords).toContain('(1) Record Found');
+    }
+
+    async shortlist(){
+        await this.page.locator(`//i[@class='oxd-icon bi-eye-fill']`).click();
+        await this.page.waitForTimeout(4000);
+        await this.page.locator(`//button[text()=' Shortlist ']`).click();
+        await this.page.locator(`//textarea[@placeholder='Type here']`).type('User is shortlisted');
+        await this.page.locator(`//button[text()=' Save ']`).click();
+        await this.page.waitForTimeout(4000);
+        let status = await this.page.locator(`//p[text()='Status: Shortlisted']`).textContent();
+        expect(status).toContain('Status: Shortlisted');
+    }
+
+    async reject(){
+        await this.page.locator(`//button[text()=' Reject ']`).click();
+        await this.page.locator(`//textarea[@placeholder='Type here']`).type('User is rejected');
+        await this.page.locator(`//button[@type='submit']`).click();
+        await this.page.waitForTimeout(4000);
+        let status = await this.page.locator(`//p[text()='Status: Rejected']`).textContent();
+        expect(status).toContain('Status: Rejected');
     }
 }

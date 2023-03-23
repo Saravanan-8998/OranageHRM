@@ -5,6 +5,7 @@ import subURL from "../../support/subURL.json";
 import { myBrowserFixture } from "../../support/fixtures";
 import Constants from "../../support/constants.json";
 import ENV from "../../support/env";
+import { AssertionURL } from "../../support/url";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -22,23 +23,24 @@ test.beforeAll(async () => {
 test.describe('Should check all functionality in candidated', async () => {
 
     test('Should fill the valid fields', async () => {
+        await expect(page).toHaveURL(AssertionURL.recruitmentURL);
         await recruitment.addNewCandidate();
         await recruitment.clickSave(Constants.assertion.success);
     });
 
     test('Should check the data created is visible in list page', async () => {
+        await expect(page).toHaveURL(AssertionURL.recruitmentURL);
         await recruitment.searchCandidate();
-        await recruitment.verifySearch();
+        await recruitment.verifyCandidateSearch();
     });
 
-    // test('Should modify the search option and search with the data created', async () => {
-    // });
+    test('Should shortlist the created candidate', async () => {
+        await recruitment.shortlist();
+    });
 
-    // test('Should modify few fields and able to save the record', async () => {
-    // });
-
-    // test('Should able to see the modified data in the list page', async () => {
-    // });
+    test('Should reject the shortlisted candidate', async () => {
+        await recruitment.reject();
+    });
 });
 
 test.afterAll(async () => {

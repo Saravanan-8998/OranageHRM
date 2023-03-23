@@ -9,4 +9,5 @@ export class AssertionURL {
     static applyLeaveURL = /.*applyLeave/;
     static viewMyLeaveListURL = /.*viewMyLeaveList/;
     static viewMyTimesheetURL = /.*viewMyTimesheet/;
+    static recruitmentURL = /.*recruitment/;
 }
