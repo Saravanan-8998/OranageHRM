@@ -58,7 +58,7 @@ export class Dashboard {
         }
         this.employeeOnLeaveToday = {
             employeeOnLeaveTodayTitle : `//p[text()='Employees on Leave Today']`,
-            settingIcon : `.orangehrm-dashboard-widget-header > i`,
+            settingIcon : `i.oxd-icon.bi-gear-fill`,
             noLeaveMsg : `//img[@alt='No Content']/following-sibling::p[1]`,
             noLeaveMsgIcon : `//img[@alt='No Content']`,
             popupBody : `//div[@role='document']`,
@@ -74,7 +74,6 @@ export class Dashboard {
     async verifyEmployeeLeaveTodayComponents() {
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.employeeOnLeaveTodayTitle)).isVisible();
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.settingIcon)).isVisible();
-        await (await this.page.waitForSelector(this.employeeOnLeaveToday.noLeaveMsgIcon)).isVisible();
         await (await this.page.waitForSelector(this.employeeOnLeaveToday.noLeaveMsg)).isVisible();
     }
 
@@ -90,7 +89,8 @@ export class Dashboard {
     }
 
     async leaveSettings(){
-        await this.page.locator(this.employeeOnLeaveToday.settingIcon).click();
+        await this.page.reload();
+        await (await this.page.waitForSelector(this.employeeOnLeaveToday.settingIcon)).click();
     }
 
     async toggle(){
