@@ -28,6 +28,14 @@ test.describe('Should check all functionality in vacancies', async () => {
         await recruitment.searchVacancie();
         await recruitment.verifyVacancieSearch();
     });
+
+    test('Should edit a vacancy and see in list page', async () => {
+        await recruitment.editAVacancy();
+    });
+
+    test('Should delete a vacancy', async () => {
+        await recruitment.deleteAVacancy();
+    });
 });
 
 test.afterAll(async () => {

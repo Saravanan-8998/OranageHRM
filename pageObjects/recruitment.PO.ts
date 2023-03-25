@@ -41,6 +41,10 @@ export class Recruitment {
             totalOpenings: `(//input[@class='oxd-input oxd-input--active'])[3]`,
             filter1: `(//div[@class='oxd-select-text-input'])[1]`,
             filter2: `(//div[@class='oxd-select-text-input'])[2]`,
+            editIcon: `i.oxd-icon.bi-pencil-fill`,
+            editOpenings: `(//label[text()='Number of Positions']/following::input)[1]`,
+            deleteIcon: `//i[@class='oxd-icon bi-trash']`,
+            confirmDelete: `//button[text()=' Yes, Delete ']`
         };
         this.shortlistLocators = {
             viewCandidate: `//i[@class='oxd-icon bi-eye-fill']`,
@@ -102,16 +106,29 @@ export class Recruitment {
 
     async searchVacancie() {
         await this.page.goto(subURL.viewJobVacancy);
-        await this.page.locator(this.vacancies.filter1).first().click();
-        await this.page.getByRole('option', { name: testData.vacancy.vacancieRole }).click();
+        await this.page.waitForURL(subURL.viewJobVacancy);
         await this.page.locator(this.vacancies.filter2).click();
         await this.page.getByRole('option', { name: testData.vacancy.vacancieName }).getByText(testData.vacancy.vacancieName, { exact: true }).click();
         await this.page.locator(this.submit).click();
+        await this.page.waitForTimeout(3000);
     }
 
     async verifyVacancieSearch() {
         let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
         expect(totalRecords).toContain(constants.assertion.totalRecords);
+    }
+
+    async editAVacancy(){
+        await this.searchVacancie();
+        await this.page.locator(this.vacancies.editIcon).click();
+        await this.page.locator(this.vacancies.editOpenings).fill('5');
+        await this.page.locator(this.submit).click();
+    }
+
+    async deleteAVacancy(){
+        await this.searchVacancie();
+        await this.page.locator(this.vacancies.deleteIcon).click();
+        await this.page.locator(this.vacancies.confirmDelete).click();
     }
 
     async addNewCandidate() {
@@ -132,8 +149,6 @@ export class Recruitment {
         await this.page.goto(subURL.viewCandidates);
         await this.page.locator(this.candidates.filter1).first().click();
         await this.page.getByRole('option', { name: testData.candidate.filter1Option }).getByText(testData.candidate.filter1Option, { exact: true }).click();
-        await this.page.locator(this.candidates.filter2).click();
-        await this.page.getByRole('option', { name: testData.candidate.filter2Option }).getByText(testData.candidate.filter2Option, { exact: true }).click();
         await this.page.locator(this.candidates.search).click();
     }
 

@@ -3,22 +3,22 @@
         "firstName": "Test",
         "middleName": "User",
         "lastName": "1",
-        "vacancieName": "Test Vaccancy 1",
+        "vacancieName": "Test Vaccancy 2",
         "email": "saravanan@gmail.com",
         "number": "9999832378",
         "keywords": "Fast Join",
         "notes": "Need a good candidate",
-        "filter1Option": "Test Vaccancy 1",
+        "filter1Option": "Test Vaccancy 2",
         "filter2Option": "Application Initiated",
         "successMsg": "User is shortlisted",
         "failedMsg": "User is rejected"
     },
     "vacancy":{
-        "vacancieName": "Test Vaccancy 1",
+        "vacancieName": "Test Vaccancy 2",
         "vacancieRole": "QA Engineer",
         "vacancieDescription": "This is a sample Vacancie which is developed for testing purposes",
-        "recruiterFirstName": "Odis",
-        "recruiterFullName": "Odis  Adalwin",
+        "recruiterFirstName": "Ravi kant badola",
+        "recruiterFullName": "Ravi kant badola",
         "openPosition": "1"
     }
 }
