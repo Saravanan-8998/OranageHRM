@@ -20,5 +20,8 @@
         "recruiterFirstName": "Ravi kant badola",
         "recruiterFullName": "Ravi kant badola",
         "openPosition": "1"
+    },
+    "myLeave": {
+        "leaveType" : "US - FMLA"
     }
 }

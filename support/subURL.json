@@ -4,5 +4,6 @@
     "punchIn" : "web/index.php/attendance/punch",
     "viewCandidates" : "web/index.php/recruitment/viewCandidates",
     "viewJobVacancy" : "web/index.php/recruitment/viewJobVacancy",
-    "filePath" : "C:/Users/saravanan.s/Documents/OrangeHRM/OranageHRM/sampleUpload/upload.txt"
+    "filePath" : "C:/Users/saravanan.s/Documents/OrangeHRM/OranageHRM/sampleUpload/upload.txt",
+    "leave" : "/web/index.php/leave/viewMyLeaveList"
 }
