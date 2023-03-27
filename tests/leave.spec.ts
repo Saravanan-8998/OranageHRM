@@ -8,6 +8,8 @@ import { createAdminUser, getFullName } from "../support/createAdmin";
 let page: Page;
 let loginPage: LoginPage;
 let leave: Leave;
+let fullNameValue: any;
+let USERNAME: any;
 
 test.beforeAll(async () => {
     page = (await myBrowserFixture()).page;
@@ -15,24 +17,35 @@ test.beforeAll(async () => {
     loginPage = new LoginPage(page);
     leave = new Leave(page);
     await createAdminUser();
-    let USERNAME = await getFullName();
-    console.log("USERNAME value --->", USERNAME);
-    await loginPage.enterCredentials(USERNAME.slice(14, 32), 'Admin@123');
+    fullNameValue = await getFullName();
+    USERNAME = fullNameValue.slice(14, 32);
+    await loginPage.enterCredentials(USERNAME, 'Admin@123');
     await leave.navigate();
 });
 
-test.describe('Should check all functionality in Entitlement Module', async () => {
+test.describe('Should check all functionality in Leave Module', async () => {
     test('Should add entitlement in add entitlement page', async () => {
-        await leave.addEntitlement();
+        await leave.addEntitlement(USERNAME);
     });
 
     test('Should test all the functionality my entitlement page', async () => {
         await leave.myLeaveEntitlement();
-        await leave.verifymyLeaveEntitlement();
     });
 
     test('Should test all the functionality in employee entitlement page', async () => {
-        await leave.myLeaveEntitlementPage();
+        await leave.myLeaveEntitlementPage(USERNAME);
+    });
+
+    test('Should apply a leave', async () => {
+        await leave.applyLeave();
+    });
+
+    test('Should modify My Leave search', async () => {
+        await leave.myLeaveList();
+    });
+
+    test('Should verify modified search in My leave', async () => {
+        await leave.searchLeaveList();
     });
 });
 
