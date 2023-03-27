@@ -1,9 +1,9 @@
 import { expect, test, Page } from "@playwright/test";
-import { Leave } from "../../pageObjects/leave.PO";
-import { LoginPage } from "../../pageObjects/login_page.PO";
-import subURL from "../../support/subURL.json";
-import { myBrowserFixture } from "../../support/fixtures";
-import ENV from "../../support/env";
+import { Leave } from "../pageObjects/leave.PO";
+import { LoginPage } from "../pageObjects/login_page.PO";
+import subURL from "../support/subURL.json";
+import { myBrowserFixture } from "../support/fixtures";
+import { createAdminUser, getFullName } from "../support/createAdmin";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -14,12 +14,14 @@ test.beforeAll(async () => {
     await page.goto(subURL.login);
     loginPage = new LoginPage(page);
     leave = new Leave(page);
-    await loginPage.enterCredentials(ENV.USERNAME, ENV.PASSWORD);
+    await createAdminUser();
+    let USERNAME = await getFullName();
+    console.log("USERNAME value --->", USERNAME);
+    await loginPage.enterCredentials(USERNAME.slice(14, 32), 'Admin@123');
     await leave.navigate();
 });
 
 test.describe('Should check all functionality in Entitlement Module', async () => {
-
     test('Should add entitlement in add entitlement page', async () => {
         await leave.addEntitlement();
     });

@@ -7,7 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '..', 'env.ts') });
 
 export default defineConfig({
   testDir: './tests',
-  // testMatch: ["tests/recruitement/candidates.spec.ts"],
+  testMatch: ["tests/entitlement.spec.ts"],
   timeout: 3600 * 1000,
   expect: {
     timeout: 5000
@@ -18,7 +18,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 1,
   reporter: 'html',
   use: {
-    baseURL: 'https://opensource-demo.orangehrmlive.com/',
+    baseURL: 'https://opensource-demo.orangehrmlive.com',
     headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,

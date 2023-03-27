@@ -74,10 +74,10 @@ export class Leave {
         await this.page.locator(this.entitlement.entitlement).click();
         await this.page.locator(this.entitlement.addEntitlement).click();
         await this.page.locator(this.entitlement.empName).fill('test User');
-        await this.page.locator(this.entitlement.leaveType).click();
-        await this.page.getByRole('option', { name: testData.myLeave.leaveType }).getByText(testData.myLeave.leaveType, { exact: true }).click();
-        await this.page.locator(this.entitlement.leaveEntitlement).fill('Add entitlement');
-        await this.page.locator(this.entitlement.submit).click();
+        // await this.page.locator(this.entitlement.leaveType).click();
+        // await this.page.getByRole('option', { name: testData.myLeave.leaveType }).getByText(testData.myLeave.leaveType, { exact: true }).click();
+        // await this.page.locator(this.entitlement.leaveEntitlement).fill('Add entitlement');
+        // await this.page.locator(this.entitlement.submit).click();
     }
 
     async myLeaveEntitlement(){

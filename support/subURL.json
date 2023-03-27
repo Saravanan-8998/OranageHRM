@@ -5,5 +5,7 @@
     "viewCandidates" : "web/index.php/recruitment/viewCandidates",
     "viewJobVacancy" : "web/index.php/recruitment/viewJobVacancy",
     "filePath" : "C:/Users/saravanan.s/Documents/OrangeHRM/OranageHRM/sampleUpload/upload.txt",
-    "leave" : "/web/index.php/leave/viewMyLeaveList"
+    "leave" : "/web/index.php/leave/viewMyLeaveList",
+    "pim" : "/web/index.php/pim/viewEmployeeList",
+    "admin" : "/web/index.php/admin/viewSystemUsers"
 }
