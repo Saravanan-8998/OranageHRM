@@ -15,7 +15,7 @@ let fullNameValue: string;
 let nameValues = ['Saravanan', autoGenerate(99), 'Test', autoGenerate(9999)];
 
 function autoGenerate(max: number) {
-    let num = Math.floor(Math.random() * max  + 92) + 1;
+    let num = Math.floor(Math.random() * max  + 92) + 99;
     return num.toString();
 }
 

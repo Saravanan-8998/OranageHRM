@@ -45,7 +45,8 @@ test.describe('Should check all functionality in Leave Module', async () => {
     });
 
     test('Should verify modified search in My leave', async () => {
-        await leave.searchLeaveList();
+        await leave.searchLeaveList(USERNAME);
+        await leave.approveLeave();
     });
 });
 
