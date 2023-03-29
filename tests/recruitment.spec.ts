@@ -5,6 +5,7 @@ import subURL from "../support/subURL.json";
 import { myBrowserFixture } from "../support/fixtures";
 import { createITManager, getFullName } from "../support/createUser";
 import Constants from "../support/constants.json";
+import { autoDelete} from "../support/deleteOldRecords";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -75,5 +76,6 @@ test.describe('Should check all functionality in Recruitment Module', async () =
 });
 
 test.afterAll(async () => {
+    await autoDelete();
     await page.close();
 });

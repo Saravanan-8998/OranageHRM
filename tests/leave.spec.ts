@@ -4,6 +4,7 @@ import { LoginPage } from "../pageObjects/login_page.PO";
 import subURL from "../support/subURL.json";
 import { myBrowserFixture } from "../support/fixtures";
 import { createAdminUser, getFullName } from "../support/createUser";
+import { autoDelete} from "../support/deleteOldRecords";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -51,5 +52,6 @@ test.describe('Should check all functionality in Leave Module', async () => {
 });
 
 test.afterAll(async () => {
+    await autoDelete();
     await page.close();
 });

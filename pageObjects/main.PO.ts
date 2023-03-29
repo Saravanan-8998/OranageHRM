@@ -32,7 +32,6 @@ export class PIMPage {
         this.closeIcon = '.oxd-toast-close-container';
         this.addEmployee = '//a[contains(text(),"Add Employee")]';
         this.save = 'button.oxd-button--medium';
-
         this.addAdmin = `//button[text()=' Add ']`;
         this.empName = `//input[@placeholder='Type for hints...']`;
         this.userRole = `(//div[@class='oxd-select-text-input'])[1]`;
@@ -128,5 +127,12 @@ export class PIMPage {
             await this.fillTextBoxValues(locator, values[index]);
             await this.page.waitForTimeout(3000);
         };
+    }
+
+    async delete(){
+        await this.page.locator(`(//i[contains(@class,'oxd-icon bi-check')])[1]`).click();
+        await this.page.locator(`//button[text()=' Delete Selected ']`).click();
+        await this.page.locator(`//button[text()=' Yes, Delete ']`).click();
+        await this.page.waitForTimeout(3000);
     }
 }
