@@ -12,16 +12,24 @@ let loginPage: LoginPage;
 let pimPage: PIMPage;
 let result: string = '';
 let fullNameValue: string;
-let nameValues = ['Saravanan', autoGenerate(99), 'Test', autoGenerate(9999)];
+let nameValues1 = ['Saravanan', autoGenerate(99), 'Test', autoGenerate(9999)];
+let nameValues2 = ['Saravanan', autoGenerate(99), 'Test', autoGenerate(9999)];
 
 function autoGenerate(max: number) {
     let num = Math.floor(Math.random() * max  + 22) + 99;
     return num.toString();
 }
 
-export async function getFullName() {
+export async function getAdminFullName() {
     for (let i = 0; i < 2; i++) {
-        result += nameValues[i] + " ";
+        result += nameValues1[i] + " ";
+    }
+    return fullNameValue = result + 'Test';
+}
+
+export async function getITManagerFullName() {
+    for (let i = 0; i < 2; i++) {
+        result += nameValues1[i] + " ";
     }
     return fullNameValue = result + 'Test';
 }
@@ -35,24 +43,33 @@ async function before() {
     await loginPage.enterCredentials(ENV.USERNAME, ENV.PASSWORD);
 }
 
-async function createUser() {
+async function createAdmin() {
     await page.goto(subURL.pim);
     await pimPage.clickAddEmployeeMenu();
     let namesLocators = [pimPage.firstName, pimPage.middleName, pimPage.lastName, pimPage.employeeId];
-    await pimPage.fillFieldValues(namesLocators, nameValues);
+    await pimPage.fillFieldValues(namesLocators, nameValues1);
+    await pimPage.clickSave(pimPage.save, 1, 'Successfully Saved');
+    await page.waitForTimeout(5000);
+}
+
+async function createItManager() {
+    await page.goto(subURL.pim);
+    await pimPage.clickAddEmployeeMenu();
+    let namesLocators = [pimPage.firstName, pimPage.middleName, pimPage.lastName, pimPage.employeeId];
+    await pimPage.fillFieldValues(namesLocators, nameValues2);
     await pimPage.clickSave(pimPage.save, 1, 'Successfully Saved');
     await page.waitForTimeout(5000);
 }
 
 async function updateUserToAdmin() {
     await page.goto(subURL.admin);
-    let fullName = await getFullName();
+    let fullName = await getAdminFullName();
     await pimPage.addEmpToAdmin(fullName);
 }
 
 async function updateUserToITManager() {
     await page.goto(subURL.pim);
-    let fullName = await getFullName();
+    let fullName = await getITManagerFullName();
     await pimPage.addEmpToITManager(fullName);
 }
 
@@ -62,14 +79,14 @@ async function after() {
 
 export async function createAdminUser() {
     await before();
-    await createUser();
+    await createAdmin();
     await updateUserToAdmin();
     await after();
 }
 
 export async function createITManager() {
     await before();
-    await createUser();
+    await createItManager();
     await updateUserToITManager();
     await after();
 }

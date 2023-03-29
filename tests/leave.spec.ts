@@ -3,8 +3,8 @@ import { Leave } from "../pageObjects/leave.PO";
 import { LoginPage } from "../pageObjects/login_page.PO";
 import subURL from "../support/subURL.json";
 import { myBrowserFixture } from "../support/fixtures";
-import { createAdminUser, getFullName } from "../support/createUser";
-import { autoDelete} from "../support/deleteOldRecords";
+import { createAdminUser, getAdminFullName } from "../support/createUser";
+import { autoDelete } from "../support/deleteOldRecords";
 
 let page: Page;
 let loginPage: LoginPage;
@@ -12,20 +12,24 @@ let leave: Leave;
 let fullNameValue: any;
 let USERNAME: any;
 
+async function adminLogin() {
+    await createAdminUser();
+    fullNameValue = await getAdminFullName();
+    USERNAME = fullNameValue.slice(14, 32);
+    await loginPage.enterCredentials(USERNAME, 'Admin@123');
+    await leave.navigate();
+}
+
 test.beforeAll(async () => {
     page = (await myBrowserFixture()).page;
     await page.goto(subURL.login);
     loginPage = new LoginPage(page);
     leave = new Leave(page);
-    await createAdminUser();
-    fullNameValue = await getFullName();
-    USERNAME = fullNameValue.slice(14, 32);
-    await loginPage.enterCredentials(USERNAME, 'Admin@123');
-    await leave.navigate();
 });
 
 test.describe('Should check all functionality in Leave Module', async () => {
     test('Should add entitlement in add entitlement page', async () => {
+        await adminLogin();
         await leave.addEntitlement(USERNAME);
     });
 
@@ -52,6 +56,6 @@ test.describe('Should check all functionality in Leave Module', async () => {
 });
 
 test.afterAll(async () => {
-    await autoDelete();
+    // await autoDelete();
     await page.close();
 });

@@ -135,7 +135,6 @@ export class PIMPage {
         await this.page.locator(`//button[text()=' Delete Selected ']`).click();
         await this.page.waitForTimeout(2000);
         await this.page.locator(`//button[text()=' Yes, Delete ']`).click();
-        await this.page.waitForTimeout(2000);
         await this.page.waitForTimeout(3000);
     }
 }
