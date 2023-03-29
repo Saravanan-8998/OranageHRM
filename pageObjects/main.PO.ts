@@ -131,8 +131,11 @@ export class PIMPage {
 
     async delete(){
         await this.page.locator(`(//i[contains(@class,'oxd-icon bi-check')])[1]`).click();
+        await this.page.waitForTimeout(2000);
         await this.page.locator(`//button[text()=' Delete Selected ']`).click();
+        await this.page.waitForTimeout(2000);
         await this.page.locator(`//button[text()=' Yes, Delete ']`).click();
+        await this.page.waitForTimeout(2000);
         await this.page.waitForTimeout(3000);
     }
 }
