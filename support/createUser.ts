@@ -1,9 +1,9 @@
 import { expect, test, Page } from "@playwright/test";
 import { LoginPage } from "../pageObjects/login_page.PO";
-import subURL from "../support/subURL.json";
-import { myBrowserFixture } from "../support/fixtures";
+import subURL from "./subURL.json";
+import { myBrowserFixture } from "./fixtures";
 import { Dashboard } from "../pageObjects/dashboard.PO";
-import ENV from "../support/env";
+import ENV from "./env";
 import { PIMPage } from "../pageObjects/main.PO";
 
 let page: Page;
@@ -15,7 +15,7 @@ let fullNameValue: string;
 let nameValues = ['Saravanan', autoGenerate(99), 'Test', autoGenerate(9999)];
 
 function autoGenerate(max: number) {
-    let num = Math.floor(Math.random() * max  + 92) + 99;
+    let num = Math.floor(Math.random() * max  + 22) + 99;
     return num.toString();
 }
 
@@ -50,6 +50,12 @@ async function updateUserToAdmin() {
     await pimPage.addEmpToAdmin(fullName);
 }
 
+async function updateUserToITManager() {
+    await page.goto(subURL.pim);
+    let fullName = await getFullName();
+    await pimPage.addEmpToITManager(fullName);
+}
+
 async function after() {
     await page.close();
 }
@@ -58,5 +64,12 @@ export async function createAdminUser() {
     await before();
     await createUser();
     await updateUserToAdmin();
+    await after();
+}
+
+export async function createITManager() {
+    await before();
+    await createUser();
+    await updateUserToITManager();
     await after();
 }

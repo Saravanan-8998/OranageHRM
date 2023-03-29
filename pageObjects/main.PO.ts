@@ -60,6 +60,30 @@ export class PIMPage {
         await this.page.waitForTimeout(5000);
     }
 
+    async addEmpToITManager(username : any){
+        await this.page.locator(`(//input[@placeholder='Type for hints...'])[1]`).fill(username)
+        await this.page.getByRole('option', { name: username }).getByText(username, { exact: true }).click();
+        await this.page.locator(`//button[text()=' Search ']`).click();
+        let records = await this.page.locator(`(//span[@class='oxd-text oxd-text--span'])[1]`).textContent();
+        await this.page.waitForTimeout(3000);
+        if(records == '(1) Record Found'){
+            await this.itManager();
+        }
+    }
+
+    async itManager(){
+        await this.page.locator(`//i[@class='oxd-icon bi-pencil-fill']`).click();
+        await this.page.locator(`//a[contains(text(),'Job')]`).click();
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[1]`).click();
+        await this.page.getByRole('option', { name: 'IT Manager' }).getByText('IT Manager', { exact: true }).click();
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[2]`).click();
+        await this.page.getByRole('option', { name: 'Officials and Managers' }).getByText('Officials and Managers', { exact: true }).click();
+        await this.page.locator(`(//div[@class='oxd-select-text-input'])[3]`).click();
+        await this.page.getByRole('option', { name: 'Development' }).getByText('Development', { exact: true }).click();
+        await this.page.locator(`//button[@type='submit']`).click();
+        await this.page.waitForTimeout(3000);
+    }
+
     async logout(){
         await this.page.locator(`oxd-userdropdown-name`).click();
         await this.page.getByRole('option', { name: 'Logout' }).getByText('Logout', { exact: true }).click();

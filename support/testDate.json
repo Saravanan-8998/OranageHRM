@@ -2,7 +2,7 @@
     "candidate": {
         "firstName": "Test",
         "middleName": "User",
-        "lastName": "1",
+        "lastName": "candidate",
         "vacancieName": "Test Vaccancy 2",
         "email": "saravanan@gmail.com",
         "number": "9999832378",
@@ -10,8 +10,11 @@
         "notes": "Need a good candidate",
         "filter1Option": "Test Vaccancy 2",
         "filter2Option": "Application Initiated",
-        "successMsg": "User is shortlisted",
-        "failedMsg": "User is rejected"
+        "shortListMsg": "User is shortlisted",
+        "scheduleForInterview": "User is scheduled for Interview",
+        "markInterview": "User is scheduled for markInterview",
+        "offerJob": "User is offered Job",
+        "hire": "User is hired"
     },
     "vacancy":{
         "vacancieName": "Test Vaccancy 2",

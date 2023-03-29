@@ -3,7 +3,7 @@ import { Leave } from "../pageObjects/leave.PO";
 import { LoginPage } from "../pageObjects/login_page.PO";
 import subURL from "../support/subURL.json";
 import { myBrowserFixture } from "../support/fixtures";
-import { createAdminUser, getFullName } from "../support/createAdmin";
+import { createAdminUser, getFullName } from "../support/createUser";
 
 let page: Page;
 let loginPage: LoginPage;

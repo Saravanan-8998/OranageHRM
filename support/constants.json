@@ -9,6 +9,10 @@
         "success" : "Successfully Saved",
         "totalRecords" : "(1) Record Found",
         "status1": "Status: Shortlisted",
-        "status2": "Status: Rejected"
+        "status2": "Status: Rejected",
+        "scheduled" : "Status: Interview Scheduled",
+        "markInterview" : "Status: Interview Passed",
+        "offerJob" : "Status: Job Offered",
+        "hired" : "Status: Hired"
     }
 }

@@ -5,6 +5,8 @@ import constants from "../support/constants.json";
 
 export class Recruitment {
     readonly page: Page; candidates: any; vacancies: any; toastMessage: any; submit: any; shortlistLocators: any; rejectLocators: any; recruitmentNavigation: any;
+    vacancyName: any = '';
+    middleName: any = '';
 
     constructor(page: Page) {
         this.page = page;
@@ -49,17 +51,52 @@ export class Recruitment {
         this.shortlistLocators = {
             viewCandidate: `//i[@class='oxd-icon bi-eye-fill']`,
             shortListACandidate: `//button[text()=' Shortlist ']`,
-            shortListTextArea: `//textarea[@placeholder='Type here']`,
-            status: `//p[text()='Status: Shortlisted']`,
-        }
-        this.rejectLocators = {
-            rejectACandidate: `//button[text()=' Reject ']`,
-            rejectTextArea: `//textarea[@placeholder='Type here']`,
-            status: `//p[text()='Status: Rejected']`,
+            textArea: `//textarea[@placeholder='Type here']`,
+            status: `.orangehrm-recruitment-status`,
         }
         this.recruitmentNavigation = `//span[text()='Recruitment']`;
         this.toastMessage = 'p.oxd-text--toast-message';
         this.submit = `//button[@type='submit']`;
+    }
+
+    async vacancyNameAutoGenerate() {
+        if (this.vacancyName === '') {
+            let num = Math.floor(Math.random() * 3 + 919);
+            this.vacancyName = 'Test Vacancy ' + num.toString();
+            return this.vacancyName;
+        } else {
+            return this.vacancyName;
+        }
+    }
+
+    async autoGenerateFName() {
+        if (this.middleName === '') {
+            let num = Math.floor(Math.random() * 3 + 255);
+            this.middleName = 'Test' + num.toString();
+            return this.middleName;
+        } else {
+            return this.middleName;
+        }
+    }
+
+    async autoGenerateMName() {
+        if (this.middleName === '') {
+            let num = Math.floor(Math.random() * 3 + 435);
+            this.middleName = num.toString();
+            return this.middleName;
+        } else {
+            return this.middleName;
+        }
+    }
+
+    async autoGenerateLName() {
+        if (this.middleName === '') {
+            let num = Math.floor(Math.random() * 3 + 559);
+            this.middleName = 'Last' + num.toString();
+            return this.middleName;
+        } else {
+            return this.middleName;
+        }
     }
 
     async navigate() {
@@ -91,24 +128,25 @@ export class Recruitment {
         return await this.page.locator(this.toastMessage).textContent();
     }
 
-    async addNewVacancie() {
+    async addNewVacancie(username: any) {
         await this.page.locator(this.vacancies.vacanciesTab).click();
         await this.page.locator(this.vacancies.addANewVacancie).click();
-        await this.page.locator(this.vacancies.vacancieName).fill(testData.vacancy.vacancieName);
+        await this.page.locator(this.vacancies.vacancieName).fill(await this.vacancyNameAutoGenerate());
         await this.page.locator(this.vacancies.vacancieRole).click();
         await this.page.getByRole('option', { name: testData.vacancy.vacancieRole }).getByText(testData.vacancy.vacancieRole, { exact: true }).click();
         await this.page.locator(this.vacancies.vacancieDescription).type(testData.vacancy.vacancieDescription);
-        await this.page.locator(this.vacancies.recruiter).fill(testData.vacancy.recruiterFirstName);
-        await this.page.getByRole('option', { name: testData.vacancy.recruiterFullName }).getByText(testData.vacancy.recruiterFullName, { exact: true }).click();
-        await this.page.locator(this.vacancies.totalOpenings).fill('1');
+        await this.page.locator(this.vacancies.recruiter).fill(username);
+        await this.page.getByRole('option', { name: username }).getByText(username, { exact: true }).click();
+        await this.page.locator(this.vacancies.totalOpenings).fill('10');
         await this.page.locator(this.submit).click();
     }
 
     async searchVacancie() {
+        await this.navigate();
         await this.page.goto(subURL.viewJobVacancy);
-        await this.page.waitForURL(subURL.viewJobVacancy);
+        await this.page.waitForTimeout(4000);
         await this.page.locator(this.vacancies.filter2).click();
-        await this.page.getByRole('option', { name: testData.vacancy.vacancieName }).getByText(testData.vacancy.vacancieName, { exact: true }).click();
+        await this.page.getByRole('option', { name: await this.vacancyNameAutoGenerate() }).getByText(await this.vacancyNameAutoGenerate(), { exact: true }).click();
         await this.page.locator(this.submit).click();
         await this.page.waitForTimeout(3000);
     }
@@ -118,26 +156,27 @@ export class Recruitment {
         expect(totalRecords).toContain(constants.assertion.totalRecords);
     }
 
-    async editAVacancy(){
+    async editAVacancy() {
         await this.searchVacancie();
         await this.page.locator(this.vacancies.editIcon).click();
         await this.page.locator(this.vacancies.editOpenings).fill('5');
         await this.page.locator(this.submit).click();
     }
 
-    async deleteAVacancy(){
+    async deleteAVacancy() {
         await this.searchVacancie();
         await this.page.locator(this.vacancies.deleteIcon).click();
         await this.page.locator(this.vacancies.confirmDelete).click();
     }
 
     async addNewCandidate() {
+        await this.navigate();
         await this.page.locator(this.candidates.addACandidate).click();
-        await this.page.locator(this.candidates.firstName).fill(testData.candidate.firstName);
-        await this.page.locator(this.candidates.middleName).fill(testData.candidate.middleName);
-        await this.page.locator(this.candidates.lastName).fill(testData.candidate.lastName);
+        await this.page.locator(this.candidates.firstName).fill(await this.autoGenerateFName());
+        await this.page.locator(this.candidates.middleName).fill(await this.autoGenerateMName());
+        await this.page.locator(this.candidates.lastName).fill(await this.autoGenerateLName());
         await this.page.locator(this.candidates.vaccancy).click();
-        await this.page.getByRole('option', { name: testData.candidate.vacancieName }).getByText(testData.candidate.vacancieName, { exact: true }).click();
+        await this.page.getByRole('option', { name: await this.vacancyNameAutoGenerate() }).getByText(await this.vacancyNameAutoGenerate(), { exact: true }).click();
         await this.page.locator(this.candidates.email).fill(testData.candidate.email);
         await this.page.locator(this.candidates.contactNumber).fill(testData.candidate.number);
         await this.uploadFile();
@@ -147,9 +186,10 @@ export class Recruitment {
 
     async searchCandidate() {
         await this.page.goto(subURL.viewCandidates);
-        await this.page.locator(this.candidates.filter1).first().click();
-        await this.page.getByRole('option', { name: testData.candidate.filter1Option }).getByText(testData.candidate.filter1Option, { exact: true }).click();
+        await this.page.locator(this.candidates.filter1).click();
+        await this.page.getByRole('option', { name: await this.vacancyNameAutoGenerate() }).getByText(await this.vacancyNameAutoGenerate(), { exact: true }).click();
         await this.page.locator(this.candidates.search).click();
+        await this.page.waitForTimeout(3000);
     }
 
     async verifyCandidateSearch() {
@@ -160,17 +200,82 @@ export class Recruitment {
     async shortlist() {
         await this.page.locator(this.shortlistLocators.viewCandidate).click();
         await this.page.locator(this.shortlistLocators.shortListACandidate).click();
-        await this.page.locator(this.shortlistLocators.shortListTextArea).type(testData.candidate.successMsg);
+        await this.page.locator(this.shortlistLocators.textArea).type(testData.candidate.shortListMsg);
         await this.page.locator(this.submit).click();
+        await this.page.waitForTimeout(3000);
         let status = await this.page.locator(this.shortlistLocators.status).textContent();
         expect(status).toContain(constants.assertion.status1);
     }
 
-    async reject() {
-        await this.page.locator(this.rejectLocators.rejectACandidate).click();
-        await this.page.locator(this.rejectLocators.rejectTextArea).type(testData.candidate.failedMsg);
+    async autoGenerateTitle() {
+        let num = Math.floor(Math.random() * 2 + 9);
+        let interviewTitle = 'Autogenerate Title ' + num.toString();
+        return interviewTitle;
+    }
+
+    async interviewSchedule(username: any){
+        await this.page.locator(this.shortlistLocators.viewCandidate).click();
+        await this.page.locator(`//button[text()=' Schedule Interview ']`).click();
+        await this.page.locator(`(//label[text()='Interview Title']/following::input)[1]`).fill(await this.autoGenerateTitle());
+        await this.page.locator(`//input[@placeholder='Type for hints...']`).fill(username);
+        await this.page.getByRole('option', { name: username }).getByText(username, { exact: true }).click();
+        await this.page.locator(`(//label[text()='Date']/following::input)[1]`).clear();
+        await this.page.locator(`(//label[text()='Date']/following::input)[1]`).type('2023-08-12');
+        await this.page.locator(`//label[text()='Time']/following::input`).clear()
+        await this.page.locator(`//label[text()='Time']/following::input`).type('09:00 AM')
+        await this.page.locator(this.shortlistLocators.textArea).type(testData.candidate.scheduleForInterview);
         await this.page.locator(this.submit).click();
-        let status = await this.page.locator(this.rejectLocators.status).textContent();
-        expect(status).toContain(constants.assertion.status2);
+        await this.page.waitForTimeout(3000);
+    }
+
+    async scheduleForInterview(username: any) {
+        await this.searchCandidate();
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        if (totalRecords == '(1) Record Found') {
+            await this.interviewSchedule(username);
+        }
+    }
+
+    async markInterview() {
+        await this.searchCandidate();
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        if (totalRecords == '(1) Record Found') {
+            await this.page.locator(this.shortlistLocators.viewCandidate).click();
+            await this.page.locator(`//button[text()=' Mark Interview Passed ']`).click();
+            await this.page.locator(this.shortlistLocators.textArea).type(testData.candidate.markInterview);
+            await this.page.locator(this.submit).click();
+            await this.page.waitForTimeout(3000);
+        }
+    }
+
+    async offerJob() {
+        await this.searchCandidate();
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        if (totalRecords == '(1) Record Found') {
+            await this.page.locator(this.shortlistLocators.viewCandidate).click();
+            await this.page.locator(`//button[text()=' Offer Job ']`).click();
+            await this.page.locator(this.shortlistLocators.textArea).type(testData.candidate.offerJob);
+            await this.page.locator(this.submit).click();
+            await this.page.waitForTimeout(3000);
+        }
+    }
+
+    async hire() {
+        await this.searchCandidate();
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        if (totalRecords == '(1) Record Found') {
+            await this.page.locator(this.shortlistLocators.viewCandidate).click();
+            await this.page.locator(`//button[text()=' Hire ']`).click();
+            await this.page.locator(this.shortlistLocators.textArea).type(testData.candidate.hire);
+            await this.page.locator(this.submit).click();
+            await this.page.waitForTimeout(3000);
+        }
+    }
+
+    async verifyUserIsHired() {
+        await this.navigate();
+        await this.searchCandidate();
+        let totalRecords = await this.page.locator(this.candidates.totalRecordsList).textContent();
+        expect(totalRecords).toContain(constants.assertion.totalRecords);
     }
 }
