@@ -1,9 +1,9 @@
 import { expect, test, Page } from "@playwright/test";
-import { LoginPage } from "../../pageObjects/login_page.PO";
-import subURL from "../../support/subURL.json";
-import { myBrowserFixture } from "../../support/fixtures";
-import Constants from "../../support/constants.json";
-import ENV from "../../support/env";
+import { LoginPage } from "../pageObjects/login_page.PO";
+import subURL from "../support/subURL.json";
+import { myBrowserFixture } from "../support/fixtures";
+import Constants from "../support/constants.json";
+import ENV from "../support/env";
 
 let page: Page;
 let loginPage: LoginPage;
